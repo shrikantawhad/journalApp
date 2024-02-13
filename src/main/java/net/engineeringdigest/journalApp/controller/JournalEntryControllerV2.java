@@ -2,6 +2,8 @@ package net.engineeringdigest.journalApp.controller;
 
 
 import net.engineeringdigest.journalApp.entity.JournalEntry;
+import net.engineeringdigest.journalApp.service.JournalEntryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,30 +12,29 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/journal")
-public class JournalEntryController {
+public class JournalEntryControllerV2 {
 
-    public HashMap<Long, JournalEntry> journalEntries = new HashMap<>();
+
+    @Autowired
+    private JournalEntryService journalEntryService;
+
 
     @GetMapping("/getAll")
     public List<JournalEntry> getAll() {
-
-//        return (List<JournalEntry>) journalEntries.values();
-
-        return new ArrayList<>(journalEntries.values());
+        return null;
     }
 
     @PostMapping("/createEntry")
     public boolean createEntry(@RequestBody JournalEntry myEntry) {
+        journalEntryService.saveJournalEntry(myEntry);
 
-//        return (List<JournalEntry>) journalEntries.values();
-        journalEntries.put(myEntry.getId(), myEntry);
         return true;
     }
 
     @GetMapping("/id/{myId}")
     public JournalEntry getJournalEntryById(@PathVariable Long myId) {
 
-        return journalEntries.get(myId);
+        return null;
 
     }
 
@@ -41,14 +42,13 @@ public class JournalEntryController {
     @DeleteMapping("/detele/id/{myId}")
     public JournalEntry deleteJournalEntryById(@PathVariable Long myId) {
 
-        return journalEntries.remove(myId);
+        return null;
 
     }
 
     @PutMapping("/update/id/{myId}")
     public JournalEntry updateJournalEntryById(@PathVariable Long myId, @RequestBody JournalEntry journalEntryRequest) {
-
-        return journalEntries.replace(myId, journalEntryRequest);
+        return null;
 
     }
 
