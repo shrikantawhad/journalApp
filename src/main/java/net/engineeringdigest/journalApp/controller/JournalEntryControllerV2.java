@@ -2,6 +2,7 @@ package net.engineeringdigest.journalApp.controller;
 
 
 import net.engineeringdigest.journalApp.entity.JournalEntry;
+import net.engineeringdigest.journalApp.repository.JounalEntryRepository;
 import net.engineeringdigest.journalApp.service.JournalEntryService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,10 @@ public class JournalEntryControllerV2 {
     private JournalEntryService journalEntryService;
 
 
+
+
     @GetMapping("/getAll")
     public ResponseEntity<?> getAll() {
-
         List<?> allEntries = journalEntryService.getAllJounalEntry();
 
 
@@ -40,7 +42,7 @@ public class JournalEntryControllerV2 {
     @PostMapping("/createEntry")
     public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry) {
         try {
-            myEntry.setDate(LocalDateTime.now());
+           // myEntry.setDate(LocalDateTime.now());
             journalEntryService.saveJournalEntry(myEntry);
             return new ResponseEntity<>(myEntry, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -75,6 +77,7 @@ public class JournalEntryControllerV2 {
     @PutMapping("/update/id/{myId}")
     public ResponseEntity<?> updateJournalEntryById(@PathVariable ObjectId myId, @RequestBody JournalEntry newJournalEntryRequest) {
         JournalEntry oldJournalEntry = journalEntryService.getJounalEntryById(myId).orElse(null);
+
 
         if (oldJournalEntry != null) {
             oldJournalEntry.setTitle(newJournalEntryRequest.getTitle() != null && !newJournalEntryRequest.getTitle().equals("") ? newJournalEntryRequest.getTitle() : oldJournalEntry.getTitle());
